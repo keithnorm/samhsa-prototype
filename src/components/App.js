@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import 'styled-components/macro';
-import tw from 'tailwind.macro';
 import { connect } from 'react-redux';
+import styled from 'styled-components/macro';
+import tw from 'tailwind.macro';
 import { handleReceiveLanguages } from '../actions/languages';
-import Header from './Header';
+import Banner from './Banner';
+import Nav from './Nav';
 import Home from './Home';
 import Results from './Results';
 import Details from './Details';
 import Page from './Page';
 import NoMatch from './NoMatch';
 import Footer from './Footer';
+
+const StyledApp = styled.div`
+  ${tw`font-sans text-gray-900 leading-normal overflow-hidden`}
+`;
 
 class App extends Component {
   componentDidMount() {
@@ -21,8 +26,9 @@ class App extends Component {
 
   render() {
     return (
-      <div css={tw`font-sans text-gray-900 leading-normal overflow-hidden`}>
-        <Header />
+      <StyledApp>
+        <Banner />
+        <Nav />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/results" component={Results} />
@@ -31,7 +37,7 @@ class App extends Component {
           <Route component={NoMatch} />
         </Switch>
         <Footer />
-      </div>
+      </StyledApp>
     );
   }
 }
