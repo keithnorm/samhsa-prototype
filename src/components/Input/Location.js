@@ -5,6 +5,11 @@ import tw from 'tailwind.macro';
 import Label from './Label';
 
 class Location extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { noResultsWarning: false };
+  }
+
   handleFocus = () => {
     this.props.input.onChange('');
     this._geoSuggest.clear();
@@ -14,8 +19,21 @@ class Location extends Component {
     this.props.input.onChange(suggest || '');
   };
 
+  handleNoResults = () => {
+    if (this._geoSuggest.state.userInput) {
+      this.setState({ noResultsWarning: true });
+    }
+  };
+
+  onUpdateSuggests = suggests => {
+    if (suggests.length) {
+      this.setState({ noResultsWarning: false });
+    }
+  };
+
   render() {
     const { input, label, placeholder } = this.props;
+    const showWarning = this.state.noResultsWarning;
 
     return (
       <div>
@@ -29,11 +47,19 @@ class Location extends Component {
             types={['(regions)']}
             placeDetailFields={[]}
             autoActivateFirstSuggest={true}
-            initialValue={input.value.label}
             queryDelay={100}
             onFocus={this.handleFocus}
+            onUpdateSuggests={this.onUpdateSuggests}
             onSuggestSelect={this.handleSuggest}
-          />
+            onSuggestNoResults={this.handleNoResults}
+          />{' '}
+          {showWarning && (
+            <div css={tw`text-red-500 text-s`}>
+              Please enter a city or postal code and select one of the results
+              <br />
+              If you need help finding treatment, call us 1-800-662-HELP (4357)
+            </div>
+          )}
         </LocationContainer>
       </div>
     );
