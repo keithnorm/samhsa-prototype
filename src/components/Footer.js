@@ -6,6 +6,26 @@ import { OutboundLink } from 'react-ga';
 import { ReactComponent as LogoSAMHSA } from '../images/logo-samhsa.svg';
 import { ReactComponent as LogoHHS } from '../images/logo-hhs.svg';
 
+const treatmentLinks = [
+  {
+    url:
+      'https://www.samhsa.gov/medication-assisted-treatment/practitioner-program-data/treatment-practitioner-locator',
+    text: 'Buprenorphine practitioners'
+  },
+  {
+    url: 'https://dpt2.samhsa.gov/treatment/directory.aspx',
+    text: 'Opioid treatment programs'
+  }
+];
+
+const generalLinks = [
+  { url: 'https://www.samhsa.gov/privacy', text: 'Privacy policy' },
+  { url: 'https://www.usa.gov/', text: 'USA.gov' },
+  { url: 'https://www.samhsa.gov/foia', text: 'FOIA' },
+  { url: 'https://www.samhsa.gov/accessibility', text: 'Accessibility' },
+  { url: 'https://forms.gle/8Zf4sCUcgn8Cmoqb6', text: 'Submit feedback' }
+];
+
 const StyledFooter = styled.div`
   ${tw`bg-gray-800 text-gray-200 text-xs`}
 
@@ -13,6 +33,12 @@ const StyledFooter = styled.div`
     ${tw`text-white hover:text-white`}
   }
 `;
+
+const renderLink = ({ url, text }) => (
+  <OutboundLink to={url} eventLabel={`${text} link from footer`}>
+    {text}
+  </OutboundLink>
+);
 
 const Footer = () => {
   return (
@@ -40,34 +66,20 @@ const Footer = () => {
             </p>
           </div>
           <div css={tw`w-full lg:flex-1 px-6 mb-6 lg:mb-0`}>
-            <h4 css={tw`font-bold mb-1`}>Other types of treatment</h4>
+            <h4 css={tw`mb-1`}>Other types of treatment</h4>
             <ul css={tw`mb-6`}>
-              <li>
-                <OutboundLink
-                  to="https://www.samhsa.gov/medication-assisted-treatment/practitioner-program-data/treatment-practitioner-locator"
-                  eventLabel="Buprenorphine practitioners link from footer"
-                >
-                  Buprenorphine practitioners
-                </OutboundLink>
-              </li>
-              <li>
-                <OutboundLink
-                  to="https://dpt2.samhsa.gov/treatment/directory.aspx"
-                  eventLabel="Opioid treatment programs link from footer"
-                >
-                  Opioid treatment programs
-                </OutboundLink>
-              </li>
+              {treatmentLinks.map((link, index) => (
+                <li key={index}>{renderLink(link)}</li>
+              ))}
             </ul>
-            <h4 css={tw`font-bold mb-1`}>Providers</h4>
+            <h4 css={tw`mb-1`}>Providers</h4>
             <ul>
               <li>
-                <OutboundLink
-                  to="https://findtreatment.samhsa.gov/locator/link-AppIns#.XSywJNNKiuo"
-                  eventLabel="List your facility link from footer"
-                >
-                  List your facility
-                </OutboundLink>
+                {renderLink({
+                  url:
+                    'https://findtreatment.samhsa.gov/locator/link-AppIns#.XSywJNNKiuo',
+                  text: 'List your facility'
+                })}
               </li>
             </ul>
           </div>
@@ -76,51 +88,14 @@ const Footer = () => {
               <li>
                 <Link to="/">Home</Link>
               </li>
-              <li>
-                <OutboundLink
-                  to="https://www.samhsa.gov/privacy"
-                  eventLabel="Privacy policy link from footer"
-                >
-                  Privacy policy
-                </OutboundLink>
-              </li>
-              <li>
-                <OutboundLink
-                  to="https://www.usa.gov/"
-                  eventLabel="USA.gov link from footer"
-                >
-                  USA.gov
-                </OutboundLink>
-              </li>
-              <li>
-                <OutboundLink
-                  to="https://www.samhsa.gov/foia"
-                  eventLabel="FOIA link from footer"
-                >
-                  FOIA
-                </OutboundLink>
-              </li>
-              <li>
-                <OutboundLink
-                  to="https://www.samhsa.gov/accessibility"
-                  eventLabel="Accessibility link from footer"
-                >
-                  Accessibility
-                </OutboundLink>
-              </li>
-              <li>
-                <OutboundLink
-                  to="https://forms.gle/8Zf4sCUcgn8Cmoqb6"
-                  eventLabel="Submit feedback link from footer"
-                >
-                  Submit feedback
-                </OutboundLink>
-              </li>
+              {generalLinks.map((link, index) => (
+                <li key={index}>{renderLink(link)}</li>
+              ))}
             </ul>
           </div>
           <div css={tw`w-full lg:flex-1 px-6`}>
             <h3 css={tw`mb-2`}>Contact SAMHSA</h3>
-            <p css={tw`mb-4`}>
+            <p>
               5600 Fishers Ln
               <br />
               Rockville, MD 20857
